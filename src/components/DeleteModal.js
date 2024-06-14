@@ -6,7 +6,13 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 
-const DeleteModal = ({ isDeleteModalOpen, closeDeleteModal }) => {
+const DeleteModal = ({ isDeleteModalOpen, closeDeleteModal, itemId, handleDeleteItem }) => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleDeleteItem(itemId);
+  }
+
   return (
     <Transition show={isDeleteModalOpen}>
       <Dialog className="relative z-10" onClose={closeDeleteModal}>
@@ -55,7 +61,7 @@ const DeleteModal = ({ isDeleteModalOpen, closeDeleteModal }) => {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                    onClick={closeDeleteModal}
+                    onClick={handleSubmit}
                   >
                     Continue
                   </button>

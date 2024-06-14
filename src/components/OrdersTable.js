@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { onSnapshot, addDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
 import { mcJollibee, db } from "../firebase";
@@ -6,12 +8,15 @@ import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
 import AddModal from "./AddModal";
 
+const MySwal = withReactContent(Swal);
+
 const OrdersTable = () => {
   const [isAddModalOpen, setisAddModalOpen] = useState(false);
   const [isEditModalOpen, setisEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setisDeleteModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [itemBeingEdited, setItemBeingEdited] = useState(null);
+  const [itemIdBeingDeleted, setItemIdBeingDeleted] = useState(null);
 
   //render table rows
   useEffect(() => {
@@ -43,9 +48,18 @@ const OrdersTable = () => {
       createdAt: Date.now(),
       updatedAt: Date.now()
     }
+
     try{
       await addDoc(mcJollibee, newProduct);
       closeAddModal();
+
+      MySwal.fire({
+        title: 'Success!',
+        text: 'Product added successfully',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      });
     }catch(error){
       console.error(error);
     }
@@ -62,18 +76,50 @@ const OrdersTable = () => {
     setItemBeingEdited(null);
   };
 
-  const handleUpdateItem = (updatedItem) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((item) =>
-        item.id === updatedItem.id ? updatedItem : item
-      )
-    );
-    closeEditModal();
+  const handleUpdateItem = async (updatedItem) => {
+    try{
+      const docRef = doc(db, "products", updatedItem.id)
+      await setDoc(docRef, {...updatedItem, updatedAt: Date.now()}, {merge: true})
+
+      closeEditModal();
+
+      MySwal.fire({
+        title: 'Success!',
+        text: 'Product updated successfully',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      });
+    }catch(error){
+      console.error(error)
+    }
   };
 
   //Delete functions
-  const openDeleteModal = () => setisDeleteModalOpen(true);
+  const openDeleteModal = (itemId) => {
+    setItemIdBeingDeleted(itemId)
+    setisDeleteModalOpen(true);
+  }
   const closeDeleteModal = () => setisDeleteModalOpen(false);
+
+  const handleDeleteItem = async (itemId) => {
+    try{
+      const docRef = doc(db, "products", itemId)
+      await deleteDoc(docRef)
+
+      setisDeleteModalOpen(false);
+
+      MySwal.fire({
+        title: 'Success!',
+        text: 'Product deleted successfully',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      });
+    }catch(error){
+      console.error(error)
+    }
+  }
 
   const tableElements = (openEditModal, openDeleteModal) => {
     if (products.length > 0) {
@@ -90,7 +136,7 @@ const OrdersTable = () => {
                 <PencilIcon className="h-5 w-5" />
               </button>
               <button
-                onClick={openDeleteModal}
+                onClick={() => openDeleteModal(id)}
                 className="mx-1 px-1 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
               >
                 <TrashIcon className="h-5 w-5" />
@@ -165,6 +211,8 @@ const OrdersTable = () => {
       <DeleteModal
         isDeleteModalOpen={isDeleteModalOpen}
         closeDeleteModal={closeDeleteModal}
+        itemId={itemIdBeingDeleted}
+        handleDeleteItem={handleDeleteItem}
       />
     </div>
   );
