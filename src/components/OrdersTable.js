@@ -31,7 +31,7 @@ const OrdersTable = () => {
   const closeAddModal = () => setisAddModalOpen(false);
 
   const handleAddItem = async (item) => {
-    const {id, category, name, size, price, cost, stock} = item;
+    const {category, name, size, price, cost, stock} = item;
 
     const newProduct = {
       category: category,
@@ -43,9 +43,13 @@ const OrdersTable = () => {
       createdAt: Date.now(),
       updatedAt: Date.now()
     }
-    await addDoc(mcJollibee, newProduct)
+    try{
+      await addDoc(mcJollibee, newProduct);
+      closeAddModal();
+    }catch(error){
+      console.error(error);
+    }
 
-    setProducts(prevProducts => [...prevProducts, newProduct])
   }
 
   //Edit functions
@@ -72,7 +76,7 @@ const OrdersTable = () => {
   const closeDeleteModal = () => setisDeleteModalOpen(false);
 
   const tableElements = (openEditModal, openDeleteModal) => {
-    if (products) {
+    if (products.length > 0) {
       return products.map((item) => {
         const { id, category, name, size, price, cost, stock } = item;
 

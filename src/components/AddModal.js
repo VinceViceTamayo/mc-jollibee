@@ -3,9 +3,6 @@ import {
   Dialog,
   Transition
 } from "@headlessui/react";
-import {
-  PencilIcon,
-} from "@heroicons/react/24/outline";
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const AddModal = ({ isAddModalOpen, closeAddModal, handleAddItem }) => {
