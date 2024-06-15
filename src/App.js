@@ -1,7 +1,6 @@
-import Hero from "./components/Hero"
-import Menu from "./components/Menu"
-import Cart from "./components/Cart"
-import OrdersTable from "./components/OrdersTable"
+import Hero from './components/Hero';
+import Menu from './components/Menu';
+import OrdersTable from './components/OrdersTable';
 
 function App() {
   return (
@@ -9,7 +8,6 @@ function App() {
       <Hero />
       <Menu />
       <OrdersTable />
-      {/* <Cart /> */}
     </>
   );
 }

@@ -1,25 +1,25 @@
-import {useState} from "react"
-import {
-  Dialog,
-  Transition
-} from "@headlessui/react";
-import {
-  PencilIcon,
-} from "@heroicons/react/24/outline";
+import { useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { PencilIcon } from '@heroicons/react/24/outline';
 
-const EditModal = ({ isEditModalOpen, closeEditModal, item, handleUpdateItem }) => {
-  const [formData, setFormData] = useState({...item})
-  const {id, category, name, size, price, cost, stock} = formData;
+const EditModal = ({
+  isEditModalOpen,
+  closeEditModal,
+  item,
+  handleUpdateItem,
+}) => {
+  const [formData, setFormData] = useState({ ...item });
+  const { id, category, name, size, price, cost, stock } = formData;
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value});
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleUpdateItem(formData);
-  }
+  };
 
   return (
     <Transition show={isEditModalOpen}>
@@ -96,7 +96,7 @@ const EditModal = ({ isEditModalOpen, closeEditModal, item, handleUpdateItem }) 
                       <div className="flex flex-row items-center mt-2">
                         <p className="text-md font-normal mr-3">Price:</p>
                         <input
-                          type="text"
+                          type="number"
                           name="price"
                           className="border rounded"
                           value={price}
@@ -106,7 +106,7 @@ const EditModal = ({ isEditModalOpen, closeEditModal, item, handleUpdateItem }) 
                       <div className="flex flex-row items-center mt-2">
                         <p className="text-md font-normal mr-3">Cost:</p>
                         <input
-                          type="text"
+                          type="number"
                           name="cost"
                           className="border rounded"
                           value={cost}
@@ -116,7 +116,7 @@ const EditModal = ({ isEditModalOpen, closeEditModal, item, handleUpdateItem }) 
                       <div className="flex flex-row items-center mt-2">
                         <p className="text-md font-normal mr-3">In-Stock:</p>
                         <input
-                          type="text"
+                          type="number"
                           name="stock"
                           className="border rounded"
                           value={stock}
@@ -150,6 +150,6 @@ const EditModal = ({ isEditModalOpen, closeEditModal, item, handleUpdateItem }) 
       </Dialog>
     </Transition>
   );
-}
+};
 
 export default EditModal;

@@ -1,17 +1,16 @@
-import {
-  Dialog,
-  Transition
-} from "@headlessui/react";
-import {
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
+import { Dialog, Transition } from '@headlessui/react';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
-const DeleteModal = ({ isDeleteModalOpen, closeDeleteModal, itemId, handleDeleteItem }) => {
-
+const DeleteModal = ({
+  isDeleteModalOpen,
+  closeDeleteModal,
+  itemId,
+  handleDeleteItem,
+}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleDeleteItem(itemId);
-  }
+  };
 
   return (
     <Transition show={isDeleteModalOpen}>
@@ -53,7 +52,9 @@ const DeleteModal = ({ isDeleteModalOpen, closeDeleteModal, itemId, handleDelete
                       >
                         Delete Product
                       </Dialog.Title>
-                      <p className="text-md font-normal">Are you sure you want to delete this product?</p>
+                      <p className="text-md font-normal">
+                        Are you sure you want to delete this product?
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -81,6 +82,6 @@ const DeleteModal = ({ isDeleteModalOpen, closeDeleteModal, itemId, handleDelete
       </Dialog>
     </Transition>
   );
-}
+};
 
 export default DeleteModal;

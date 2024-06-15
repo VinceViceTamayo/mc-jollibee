@@ -1,22 +1,19 @@
-import {useState} from "react"
-import {
-  Dialog,
-  Transition
-} from "@headlessui/react";
-import { PlusCircleIcon } from "@heroicons/react/16/solid";
+import { useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { PlusCircleIcon } from '@heroicons/react/16/solid';
 
 const AddModal = ({ isAddModalOpen, closeAddModal, handleAddItem }) => {
-  const [formData, setFormData] = useState([])
+  const [formData, setFormData] = useState([]);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value});
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleAddItem(formData);
-  }
+  };
 
   return (
     <Transition show={isAddModalOpen}>
@@ -90,7 +87,7 @@ const AddModal = ({ isAddModalOpen, closeAddModal, handleAddItem }) => {
                       <div className="flex flex-row items-center mt-2">
                         <p className="text-md font-normal mr-3">Price:</p>
                         <input
-                          type="text"
+                          type="number"
                           name="price"
                           className="border rounded"
                           onChange={handleChange}
@@ -99,7 +96,7 @@ const AddModal = ({ isAddModalOpen, closeAddModal, handleAddItem }) => {
                       <div className="flex flex-row items-center mt-2">
                         <p className="text-md font-normal mr-3">Cost:</p>
                         <input
-                          type="text"
+                          type="number"
                           name="cost"
                           className="border rounded"
                           onChange={handleChange}
@@ -108,7 +105,7 @@ const AddModal = ({ isAddModalOpen, closeAddModal, handleAddItem }) => {
                       <div className="flex flex-row items-center mt-2">
                         <p className="text-md font-normal mr-3">In-Stock:</p>
                         <input
-                          type="text"
+                          type="number"
                           name="stock"
                           className="border rounded"
                           onChange={handleChange}
@@ -141,6 +138,6 @@ const AddModal = ({ isAddModalOpen, closeAddModal, handleAddItem }) => {
       </Dialog>
     </Transition>
   );
-}
+};
 
 export default AddModal;
